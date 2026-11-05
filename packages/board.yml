@@ -12,4 +12,4 @@ esp32:
       #   path: /path/to/tesla-ble
       - name: tesla-ble
         source: https://github.com/jaimeagudo/tesla-ble.git
-        ref: volture/v6.1.1-schedule
+        ref: 37f2cad12249127e6d7ac0a625c7cd6342e15b09 # branch volture/v6.1.1-schedule
