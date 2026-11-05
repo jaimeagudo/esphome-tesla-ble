@@ -119,6 +119,7 @@ BINARY_SENSORS = [
     {"id": "asleep", "name": "Asleep", "icon": "mdi:sleep"},
     {"id": "user_present", "name": "User Present", "icon": "mdi:account-check", "device_class": "occupancy"},
     {"id": "charger", "name": "Charger", "icon": "mdi:power-plug", "device_class": "plug"},
+    {"id": "scheduled_charging_pending", "name": "Scheduled Charging Pending", "icon": "mdi:calendar-clock", "disabled_by_default": True},
     
     # Drive sensors
     {"id": "parking_brake", "name": "Parking Brake", "icon": "mdi:car-brake-parking"},
@@ -169,6 +170,10 @@ TEXT_SENSORS = [
     {"id": "iec61851_state", "name": "IEC 61851", "icon": "mdi:ev-plug-type2", "disabled_by_default": True},
     {"id": "shift_state", "name": "Shift State", "icon": "mdi:car-shift-pattern", "disabled_by_default": True},
     {"id": "charge_limit_reason", "name": "Charge Limit Reason", "icon": "mdi:ev-plug-tesla"},
+    {"id": "scheduled_charging_mode", "name": "Scheduled Charging", "icon": "mdi:calendar-clock", "disabled_by_default": True},
+    {"id": "scheduled_charging_start", "name": "Scheduled Charging Start", "icon": "mdi:clock-start", "disabled_by_default": True},
+    {"id": "scheduled_departure", "name": "Scheduled Departure", "icon": "mdi:clock-end", "disabled_by_default": True},
+    {"id": "off_peak_end", "name": "Off-Peak End", "icon": "mdi:clock-end", "disabled_by_default": True},
     {"id": "software_update", "name": "Software Update", "icon": "mdi:cellphone-arrow-down"},
     {"id": "software_update_version", "name": "Software Update Version", "icon": "mdi:information-outline", "entity_category": "diagnostic"},
     {"id": "steering_wheel_heat_mode", "name": "Steering Heat Mode", "icon": "mdi:steering", "entity_category": "diagnostic"},
