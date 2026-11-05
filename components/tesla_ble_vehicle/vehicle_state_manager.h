@@ -101,6 +101,7 @@ public:
     // State updates from CarServer (Infotainment)
     // ==========================================================================
     void update_charge_state(const CarServer_ChargeState& charge_state);
+    void update_charge_schedule_state(const CarServer_ChargeScheduleState& schedule_state);
     void update_climate_state(const CarServer_ClimateState& climate_state);
     void update_drive_state(const CarServer_DriveState& drive_state);
     void update_tire_pressure_state(const CarServer_TirePressureState& tire_pressure_state);
