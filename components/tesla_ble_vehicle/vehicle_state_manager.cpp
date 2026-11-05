@@ -8,33 +8,9 @@
 #include <cmath>
 #include <algorithm>
 #include <cinttypes>
-#include <cstdio>
 
 namespace esphome {
 namespace tesla_ble_vehicle {
-
-namespace {
-
-// Minutes after midnight, as the car sends schedule times, to "HH:MM".
-std::string clock_time(uint32_t minutes) {
-    char text[6];
-    std::snprintf(text, sizeof(text), "%02u:%02u", static_cast<unsigned>((minutes / 60) % 24),
-                  static_cast<unsigned>(minutes % 60));
-    return text;
-}
-
-std::string scheduled_charging_mode_text(int mode) {
-    switch (mode) {
-        case CarServer_ChargeState_ScheduledChargingMode_ScheduledChargingModeStartAt:
-            return "Start At";
-        case CarServer_ChargeState_ScheduledChargingMode_ScheduledChargingModeDepartBy:
-            return "Depart By";
-        default:
-            return "Off";
-    }
-}
-
-}  // namespace
 
 VehicleStateManager::VehicleStateManager(TeslaBLEVehicle* parent)
     : parent_(parent) {
@@ -314,36 +290,7 @@ void VehicleStateManager::update_charge_state(const CarServer_ChargeState& charg
     } else {
         publish_text_sensor("charge_limit_reason", "Unknown");
     }
-
-    // The car's own charging schedule (set in the car or the Tesla app). Lets a charge controller
-    // tell a stop the schedule asked for from one it may undo.
-    if (charge_state.which_optional_scheduled_charging_mode) {
-        publish_text_sensor("scheduled_charging_mode",
-                            scheduled_charging_mode_text(
-                                static_cast<int>(charge_state.optional_scheduled_charging_mode.scheduled_charging_mode)));
-    }
-    if (charge_state.which_optional_scheduled_charging_pending) {
-        publish_binary_sensor("scheduled_charging_pending",
-                              charge_state.optional_scheduled_charging_pending.scheduled_charging_pending);
-    }
-    if (charge_state.which_optional_scheduled_charging_start_time_minutes) {
-        publish_text_sensor("scheduled_charging_start",
-                            clock_time(
-                                charge_state.optional_scheduled_charging_start_time_minutes.scheduled_charging_start_time_minutes));
-    }
-    if (charge_state.which_optional_scheduled_departure_time_minutes) {
-        publish_text_sensor("scheduled_departure",
-                            clock_time(
-                                charge_state.optional_scheduled_departure_time_minutes.scheduled_departure_time_minutes));
-    }
-    if (charge_state.which_optional_off_peak_hours_end_time) {
-        publish_text_sensor("off_peak_end",
-                            clock_time(charge_state.optional_off_peak_hours_end_time.off_peak_hours_end_time));
-    }
-    ESP_LOGD(STATE_MANAGER_TAG, "schedule mode_present=%d pending_present=%d off_peak_times=%d",
-             charge_state.which_optional_scheduled_charging_mode, charge_state.which_optional_scheduled_charging_pending,
-             charge_state.off_peak_charging_times.which_times);
-
+    
     // Update charging rate
     if (charge_state.which_optional_charge_rate_mph) {
         const float rate_mph = static_cast<float>(charge_state.optional_charge_rate_mph.charge_rate_mph);
